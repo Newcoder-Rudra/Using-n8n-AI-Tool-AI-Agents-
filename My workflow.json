@@ -1,0 +1,276 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Super cool LED Tshirt Pre-Order",
+        "formDescription": "To get a T shirt delivered at your home, please fill out this pre order form.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone Number",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Address",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Size",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "S"
+                  },
+                  {
+                    "option": "M"
+                  },
+                  {
+                    "option": "XL"
+                  },
+                  {
+                    "option": "XXL"
+                  },
+                  {
+                    "option": "XS"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Quantity",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Color",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Payment",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "UPI / Card"
+                  },
+                  {
+                    "option": "COD"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "990ad432-2013-45d6-8cda-2b7297b412eb",
+      "name": "On form submission",
+      "webhookId": "825ca193-6be2-4946-8946-f65e52ebea34"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1aGWiDO7xRe4slcTzQ0l1Vmfg-EKbvJLZcwuItYu5mcE",
+          "mode": "list",
+          "cachedResultName": "PreOrder Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aGWiDO7xRe4slcTzQ0l1Vmfg-EKbvJLZcwuItYu5mcE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Order",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aGWiDO7xRe4slcTzQ0l1Vmfg-EKbvJLZcwuItYu5mcE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}",
+            "Phone No": "={{ $json['Phone Number'] }}",
+            "Address": "={{ $json.Address }}",
+            "Size": "={{ $json.Size }}",
+            "Payment": "={{ $json.Payment }}",
+            "Date and Time": "={{ $now }}",
+            "Quantity": "={{ $json.Quantity }}",
+            "Approve": "={{ $if($json.Quantity <= 5, \"TRUE\", \"FALSE\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone No",
+              "displayName": "Phone No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Size",
+              "displayName": "Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Payment",
+              "displayName": "Payment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date and Time",
+              "displayName": "Date and Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Approve",
+              "displayName": "Approve",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f23fca6d-bcb4-445c-aadf-72d28d7d7ea1",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FYzzgCyeKGimKipQ",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Name": "ammu",
+          "Email": "rudy6phoenix@gmail.com",
+          "Phone Number": 9692768691,
+          "Address": "mig ii 2 7/2 hb colony cspur bbsr",
+          "Size": "XL",
+          "Quantity": 2,
+          "Color": "black",
+          "Payment": "UPI / Card",
+          "submittedAt": "2025-08-02T16:05:20.771+05:30",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5738b9c6-28fd-4c9e-bde2-6242d3b8b2e2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a12ca13e184e56448aa14515b7ba6e2234c16eb36edf1441dde1f2e853d93e64"
+  },
+  "id": "kgosG43xVNMmgkO4",
+  "tags": []
+}
