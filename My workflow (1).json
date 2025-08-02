@@ -1,0 +1,526 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Super cool LED Tshirt Pre-Order",
+        "formDescription": "To get a T shirt delivered at your home, please fill out this pre order form.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone Number",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Address",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Size",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "S"
+                  },
+                  {
+                    "option": "M"
+                  },
+                  {
+                    "option": "XL"
+                  },
+                  {
+                    "option": "XXL"
+                  },
+                  {
+                    "option": "XS"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Quantity",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Color",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Payment",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "UPI / Card"
+                  },
+                  {
+                    "option": "COD"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "990ad432-2013-45d6-8cda-2b7297b412eb",
+      "name": "On form submission",
+      "webhookId": "825ca193-6be2-4946-8946-f65e52ebea34"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1aGWiDO7xRe4slcTzQ0l1Vmfg-EKbvJLZcwuItYu5mcE",
+          "mode": "list",
+          "cachedResultName": "PreOrder Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aGWiDO7xRe4slcTzQ0l1Vmfg-EKbvJLZcwuItYu5mcE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Order",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1aGWiDO7xRe4slcTzQ0l1Vmfg-EKbvJLZcwuItYu5mcE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}",
+            "Phone No": "={{ $json['Phone Number'] }}",
+            "Address": "={{ $json.Address }}",
+            "Size": "={{ $json.Size }}",
+            "Payment": "={{ $json.Payment }}",
+            "Date and Time": "={{ $now }}",
+            "Quantity": "={{ $json.Quantity }}",
+            "Approve": "={{ $if($json.Quantity <= 5, \"TRUE\", \"FALSE\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone No",
+              "displayName": "Phone No",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Size",
+              "displayName": "Size",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Payment",
+              "displayName": "Payment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date and Time",
+              "displayName": "Date and Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Approve",
+              "displayName": "Approve",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f23fca6d-bcb4-445c-aadf-72d28d7d7ea1",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FYzzgCyeKGimKipQ",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e98b61da-a0f3-497a-ad43-8c1afbb7235b",
+              "leftValue": "={{ $json.Quantity }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4a5976a4-8b70-44bb-8119-7b7625d04f81",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('On form submission').item.json.Quantity }}",
+                    "rightValue": 5,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lte"
+                    },
+                    "id": "817d4e8f-fbb3-41ee-adb8-e3804aa2afdc"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ba3d1be6-d591-4ae0-b22a-64edca216f29",
+                    "leftValue": "={{ $('On form submission').item.json.Quantity }}",
+                    "rightValue": 5,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "08b7dc8c-04e4-4a9a-abfc-7d0a5b4851c4",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Order confirmation ",
+        "emailType": "text",
+        "message": "=Hi  {{ $json.Name }}\n\nYour oder details,\nOrder Quantity : {{ $json.Quantity }}\nOrder date : {{ $now.toLocaleString() }}\nOrder completion : {{ $now.plus(7, 'days').toLocaleString() }}\n\nplease reach out to use if you have any queries.\n\nThank you for your purchase.\nGood Day\nTeam Rudra Emporium",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        96
+      ],
+      "id": "24c08635-258a-4d18-8490-435e45db0a1b",
+      "name": "Send a message",
+      "webhookId": "a2aa183a-70a7-418b-a904-a125552989d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JKUjLLDDRnqNa1m3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Order confirmation ",
+        "emailType": "text",
+        "message": "=Hi  {{ $json.Name }}\n\nYour oder details,\nOrder Quantity : {{ $json.Quantity }}\nOrder date : {{ $now.toLocaleString() }}\nOrder completion : {{ $now.plus(7, 'days').toLocaleString() }}\n\nplease reach out to use if you have any queries.\n\nThank you for your purchase.\nGood Day\nTeam Rudra Emporium",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -128
+      ],
+      "id": "d7dac421-6fd1-4e7e-a70b-8b13beb89b28",
+      "name": "Send a message1",
+      "webhookId": "a2aa183a-70a7-418b-a904-a125552989d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JKUjLLDDRnqNa1m3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        -16
+      ],
+      "id": "6a4cc820-61b0-4268-8bff-101b0bb59bf6",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Append row in sheet').item.json.Email }}",
+        "subject": "Order confirmation_Delivery",
+        "emailType": "text",
+        "message": "=Hi Ammu,\n\nPlease find the details below,\n\nCustomer name : {{ $('Append row in sheet').item.json.Name }}\nCustomer email address : {{ $('Append row in sheet').item.json.Email }}\nAddress : {{ $('Append row in sheet').item.json.Address }}\nPhone No : {{ $('Append row in sheet').item.json['Phone No'] }}\nSize : {{ $('Append row in sheet').item.json.Size }}\nQuantity : {{ $('Append row in sheet').item.json.Quantity }}\nColor : {{ $('On form submission').item.json.Color }}\nPayment : {{ $('On form submission').item.json.Payment }}\nOrder date :{{ $now.toLocaleString() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1248,
+        -16
+      ],
+      "id": "dfe48662-8132-4632-b66f-1bd68ecf7643",
+      "name": "Send a message2",
+      "webhookId": "496aa123-555a-4c61-b265-fd1768b4ff64",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JKUjLLDDRnqNa1m3",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Name": "ammu",
+          "Email": "rudy6phoenix@gmail.com",
+          "Phone Number": 9692768691,
+          "Address": "itina neela apartment",
+          "Size": "XL",
+          "Quantity": 7,
+          "Color": "Black",
+          "Payment": "UPI / Card",
+          "submittedAt": "2025-08-02T17:21:24.776+05:30",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9134e3b8-4823-4b9f-8f62-a343ca1eb9a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a12ca13e184e56448aa14515b7ba6e2234c16eb36edf1441dde1f2e853d93e64"
+  },
+  "id": "kgosG43xVNMmgkO4",
+  "tags": []
+}
