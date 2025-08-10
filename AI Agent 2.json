@@ -1,0 +1,156 @@
+{
+  "name": "AI Agent 2",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "02c9add0-57f0-40f6-90aa-72be446c45fc",
+      "name": "When chat message received",
+      "webhookId": "680ceb1d-42e1-49e9-b5b7-9aa01b678019"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# Role\nYou are a scheduling assistant working for a nail art salon.  \nYour role is to help customers schedule an appointment in the nail art salon's calendar.\n\n# Context\nFollow the following steps to book an appointment for the user:  \n1. Ask the user for their preferred appointment day.  \n2. Use the get_all_calendar_events tool to identify free time slots for the user-specified day.  \n3. Show the user available time slots for their preferred day and get from user the time slot they would like to book an appointment for. If there are no available time slots for that day, start from step 1 again and ask the user for a new day preference.\n4. Ask the user for the information you require to book the calendar appointment. In order to book the appointment, you need the user's full name, mobile number and email. \n5. Use the create_calendar_appointment tool to book the appointment for the user, using details captured from step 4. \n6. Once the appointment is booked, notify the user with relevant details for their appointment. Notify user if it was not possible to create the appointment.\n7. The current date and time is {{ $now }}\n\n\n# Task\n\n# Format\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1e501d60-67d1-4d00-a8d6-eac3a3142b55",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        208
+      ],
+      "id": "ed8af11d-8bee-4e4a-b4b0-5dee74853d3f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "3cl3rSKPOhwY1INp",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "35ca93d6-8a29-42b8-a7da-2493680dce61",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "rudy6phoenix@gmail.com",
+          "mode": "list",
+          "cachedResultName": "rudy6phoenix@gmail.com"
+        },
+        "timeMin": "={{ $fromAI(\"eventAfter\", \"Get all the events after this time.\") }}",
+        "timeMax": "={{ $fromAI(\"eventBefore\", \"Get all the events before this time.\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        208
+      ],
+      "id": "6ea9c74e-d19b-46fe-9be6-032e533e45d5",
+      "name": "get_all_calendar_events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "RABsxt60AqMMnIA0",
+          "name": "Google Calendar account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_all_calendar_events": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "572b811e-514d-449b-aa4f-d4b2125096dd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a12ca13e184e56448aa14515b7ba6e2234c16eb36edf1441dde1f2e853d93e64"
+  },
+  "id": "qiQgYLUVrlxrwAsL",
+  "tags": []
+}
