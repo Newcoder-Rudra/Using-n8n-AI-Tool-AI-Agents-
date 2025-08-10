@@ -2,6 +2,5 @@
 
 Save yourself the work of writing custom integrations for Google Forms and Google Sheets and use n8n instead. Build adaptable and scalable Productivity, workflows that work with your technology stack. All within a building experience you will love.
 
-Here is the workflow in n8n tool :-
+And also Save your Time instead of looking into google calendar manually, by using AI Agent which automatically add any event and remind the schedule of event.
 
-https://phoenixcoder.app.n8n.cloud/workflow/kgosG43xVNMmgkO4
